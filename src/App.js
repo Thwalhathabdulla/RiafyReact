@@ -1,25 +1,35 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+import {Container} from 'react-bootstrap';
+import Header from './layout';
+import { BrowserRouter as Router, 
+  Route,Switch
+} from 'react-router-dom';
+//view components
+import Home from './view/home';
+import Login from './view/Login';
+import Register from './view/Register';
+import ViewList from './view/View'
+import {LoginContext} from './context/LoginContext';
+const App = () => {
+  const [logged,setLogged] = useState(false)
+  return ( 
+    <div>
+      <LoginContext.Provider value={{logged,setLogged}}>
+        <Router>
+          <Header/>
+            <Container fluid>
+              <Switch>
+                <Route path="/" exact={true} component={Home} />
+                <Route path="/login" exact={true} component={Login} />
+                <Route path="/register" exact={true} component={Register} />
+                <Route path="/view/:id" exact={true} component={ViewList} />
+              </Switch>
+            </Container>
+        </Router>
+      </LoginContext.Provider>
     </div>
-  );
+   );
 }
 
 export default App;
